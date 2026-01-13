@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ policy.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="{% url 'policy_list' %}" class="btn btn-sm btn-outline-secondary mb-3">
+                <i class="fas fa-arrow-left"></i> Back to Policies
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2>{{ policy.title }}</h2>
+                    <div class="mb-3">
+                        <span class="badge bg-info">{{ policy.get_policy_type_display }}</span>
+                        <span class="badge bg-secondary">Version {{ policy.version }}</span>
+                        {% if policy.is_active %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Description</h5>
+                        <p>{{ policy.description }}</p>
+                    </div>
+
+                    {% if policy.content %}
+                    <div class="mb-4">
+                        <h5>Policy Content</h5>
+                        <div class="policy-content">
+                            {{ policy.content|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if policy.document %}
+                    <div class="mb-4">
+                        <h5>Attached Document</h5>
+                        <a href="{{ policy.document.url }}" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-download"></i> Download Policy Document
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Policy Information</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <strong>Effective Date:</strong><br>
+                        {{ policy.effective_date|date:"F d, Y" }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Created By:</strong><br>
+                        {% if policy.created_by %}
+                            {{ policy.created_by.get_full_name|default:policy.created_by.username }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Created On:</strong><br>
+                        {{ policy.created_at|date:"F d, Y" }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Last Updated:</strong><br>
+                        {{ policy.updated_at|date:"F d, Y" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

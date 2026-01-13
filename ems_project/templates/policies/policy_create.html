@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Policy{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Create New Policy</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Policy Title *</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="policy_type" class="form-label">Policy Type *</label>
+                                <select class="form-select" id="policy_type" name="policy_type" required>
+                                    <option value="">Select Type</option>
+                                    {% for code, name in policy_types %}
+                                    <option value="{{ code }}">{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="version" class="form-label">Version</label>
+                                <input type="text" class="form-control" id="version" name="version" value="1.0">
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="effective_date" class="form-label">Effective Date *</label>
+                                <input type="date" class="form-control" id="effective_date" name="effective_date" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Policy Content</label>
+                            <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+                            <small class="text-muted">Full policy text content</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="document" class="form-label">Upload Document (Optional)</label>
+                            <input type="file" class="form-control" id="document" name="document" accept=".pdf,.doc,.docx">
+                            <small class="text-muted">Accepted formats: PDF, DOC, DOCX</small>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'policy_list' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Create Policy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

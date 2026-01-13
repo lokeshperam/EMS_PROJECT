@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}My Attendance{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>My Attendance</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'punch_in' %}" class="btn btn-success">
+                <i class="fas fa-sign-in-alt"></i> Punch In
+            </a>
+            <a href="{% url 'punch_out' %}" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Punch Out
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5>Present</h5>
+                    <h3>{{ present_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5>Absent</h5>
+                    <h3>{{ absent_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5>Late</h5>
+                    <h3>{{ late_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5>Half Day</h5>
+                    <h3>{{ half_day_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5>On Leave</h5>
+                    <h3>{{ on_leave_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-secondary text-white">
+                <div class="card-body">
+                    <h5>Total Days</h5>
+                    <h3>{{ month_attendances }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Records -->
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">Attendance History</h4>
+            {% if attendances %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Punch In</th>
+                            <th>Punch Out</th>
+                            <th>Working Hours</th>
+                            <th>Notes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance in attendances %}
+                        <tr>
+                            <td>{{ attendance.date|date:"M d, Y" }}</td>
+                            <td><span class="badge bg-{{ attendance.status|lower }}">{{ attendance.get_status_display }}</span></td>
+                            <td>{% if attendance.punch_in %}{{ attendance.punch_in|date:"H:i" }}{% else %}-{% endif %}</td>
+                            <td>{% if attendance.punch_out %}{{ attendance.punch_out|date:"H:i" }}{% else %}-{% endif %}</td>
+                            <td>{% if attendance.working_hours %}{{ attendance.working_hours }} hrs{% else %}-{% endif %}</td>
+                            <td>{{ attendance.notes|truncatewords:5 }}</td>
+                            <td>
+                                <a href="{% url 'attendance_detail' attendance.pk %}" class="btn btn-sm btn-outline-primary">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No attendance records found.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

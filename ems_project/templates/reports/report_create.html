@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Generate Report{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Generate New Report</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Report Title *</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="report_type" class="form-label">Report Type *</label>
+                                <select class="form-select" id="report_type" name="report_type" required>
+                                    <option value="">Select Type</option>
+                                    {% for code, name in report_types %}
+                                    <option value="{{ code }}">{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="report_format" class="form-label">Format *</label>
+                                <select class="form-select" id="report_format" name="report_format" required>
+                                    {% for code, name in report_formats %}
+                                    <option value="{{ code }}">{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="date_from" class="form-label">From Date *</label>
+                                <input type="date" class="form-control" id="date_from" name="date_from" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="date_to" class="form-label">To Date *</label>
+                                <input type="date" class="form-control" id="date_to" name="date_to" required>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> The report will be generated based on the selected date range and type.
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'report_list' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Generate Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

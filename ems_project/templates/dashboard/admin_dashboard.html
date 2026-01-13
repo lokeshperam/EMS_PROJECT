@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - EMS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ user.first_name|default:user.username }}!</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h5><i class="fas fa-users"></i> Total Employees</h5>
+            <h3>{{ total_employees }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h5><i class="fas fa-calendar-alt"></i> Pending Leaves</h5>
+            <h3>{{ pending_leaves }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h5><i class="fas fa-tasks"></i> Active Tasks</h5>
+            <h3>{{ active_tasks }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h5><i class="fas fa-exclamation-circle"></i> Open Issues</h5>
+            <h3>{{ open_issues }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-star"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'employee_create' %}" class="btn btn-primary btn-sm me-2">
+                    <i class="fas fa-plus"></i> Add Employee
+                </a>
+                <a href="{% url 'leave_request' %}" class="btn btn-success btn-sm me-2">
+                    <i class="fas fa-plus"></i> Request Leave
+                </a>
+                <a href="{% url 'task_create' %}" class="btn btn-info btn-sm">
+                    <i class="fas fa-plus"></i> Create Task
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-list"></i> Recent Tasks</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">No tasks yet</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> Recent Leaves</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">No leave requests yet</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

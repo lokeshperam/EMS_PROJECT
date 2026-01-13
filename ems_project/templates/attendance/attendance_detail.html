@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance Detail{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="{% url 'my_attendance' %}" class="btn btn-sm btn-outline-secondary mb-3">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Attendance Details</h4>
+                    <hr>
+                    
+                    <div class="mb-3">
+                        <strong>Employee:</strong><br>
+                        {{ attendance.employee.get_full_name|default:attendance.employee.username }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Date:</strong><br>
+                        {{ attendance.date|date:"F d, Y" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Status:</strong><br>
+                        <span class="badge bg-{{ attendance.status|lower }}">{{ attendance.get_status_display }}</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Punch In:</strong><br>
+                        {% if attendance.punch_in %}
+                            {{ attendance.punch_in|date:"M d, Y H:i:s" }}
+                        {% else %}
+                            Not punched in
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Punch Out:</strong><br>
+                        {% if attendance.punch_out %}
+                            {{ attendance.punch_out|date:"M d, Y H:i:s" }}
+                        {% else %}
+                            Not punched out
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Working Hours:</strong><br>
+                        {% if attendance.working_hours %}
+                            {{ attendance.working_hours }} hours
+                        {% else %}
+                            Not calculated
+                        {% endif %}
+                    </div>
+
+                    {% if attendance.notes %}
+                    <div class="mb-3">
+                        <strong>Notes:</strong><br>
+                        {{ attendance.notes }}
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <strong>Created:</strong><br>
+                        {{ attendance.created_at|date:"M d, Y H:i" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Last Updated:</strong><br>
+                        {{ attendance.updated_at|date:"M d, Y H:i" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
