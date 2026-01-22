@@ -6,7 +6,7 @@ class RBACMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and hasattr(request.user, 'role'):
             request.role = request.user.role
             
             # Restrict admin panel access to ADMIN role only
