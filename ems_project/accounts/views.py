@@ -8,14 +8,15 @@ from issues.models import Issue
 
 def login_view(request):
     if request.method == "POST":
-        user = authenticate(
-            request,
-            username=request.POST['username'],
-            password=request.POST['password']
-        )
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             return redirect('dashboard')
+        else:
+            context = {'error': 'Invalid username or password'}
+            return render(request, 'auth/login.html', context)
     return render(request, 'auth/login.html')
 
 def logout_view(request):
