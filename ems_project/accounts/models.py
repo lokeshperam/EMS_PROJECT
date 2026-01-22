@@ -7,7 +7,7 @@ class User(AbstractUser):
         ('MANAGER', 'Manager'),
         ('EMPLOYEE', 'Employee'),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)    
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='EMPLOYEE')    
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='custom_user_groups',
