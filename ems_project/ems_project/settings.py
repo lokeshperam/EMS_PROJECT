@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'performance',
 ]
 
+# Use the custom user model so role-based checks work
+AUTH_USER_MODEL = 'accounts.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -142,4 +145,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Default auto field to silence implicit PK warnings
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
